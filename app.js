@@ -10,21 +10,25 @@ sequelize.authenticate()
  sequelize.sync({ force: true })
    .then(() => {
         console.log("Database rewriting done!");
-        // Customer.create({
-        //     firstname: "Jean-Baptiste",
-        //     lastname: "Lavisse",
-        //     email: "jb@truc.fr",
-        // //  address: "2 rue du vert gazon 62129 truc",
-        // //  phone: '0321882292'
-        // })
 
-        // Customer.create({
-        //     firstname: "Jean-jacques",
-        //     lastname: "Rousseau",
-        //     email: "lebg@laphilo.fr",
-        // //  address: "2 rue du vert gazon 62129 truc",
-        //     phone: '0321882292'
-        // })
+        // Pour pouvoir utiliser un modèle associée
+        // à notre instance de sequelize
+        // sequelize.models.LeNomDeNotreModele
+        sequelize.models.Customer.create({
+            firstname: "Jean-Baptiste",
+            lastname: "Lavisse",
+            email: "jb@truc.fr",
+        //  address: "2 rue du vert gazon 62129 truc",
+        //  phone: '0321882292'
+        })
+
+        sequelize.models.Customer.create({
+            firstname: "Jean-jacques",
+            lastname: "Rousseau",
+            email: "lebg@laphilo.fr",
+        //  address: "2 rue du vert gazon 62129 truc",
+            phone: '0321882292'
+        })
     })
 })
 // Si c'est pas bon
