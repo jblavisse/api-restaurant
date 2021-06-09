@@ -1,35 +1,6 @@
-
-const {DataTypes, Sequelize} = require('sequelize');
-
-const sequelize = new Sequelize('mysql://restaurant_usr:1poney2poneys3poneys@localhost/restaurant');
+const sequelize = require("./models/index.js");
 
 console.log(`Checking database connection...`);
-
-const Customer = sequelize.define('Customer', {
-    firstname: {
-        type: DataTypes.STRING(30),
-        allowNull: false
-    },
-    lastname: {
-        type: DataTypes.STRING(30),
-        allowNull: false
-    },
-    email: {
-        type: DataTypes.STRING(100),
-        allowNull: false
-    },
-    address: {
-        type: DataTypes.STRING(255),
-        allowNull: true
-    },
-    phone: {
-        type: DataTypes.STRING(14),
-        allowNull: true
-    }
-}, {
-    underscored: true,
-    tableName: 'customer'
-});
 
 const Dish = sequelize.define('Dish',{
     name:{
@@ -165,11 +136,23 @@ sequelize.authenticate()
         //  address: "2 rue du vert gazon 62129 truc",
             phone: '0321882292'
         })
-
+   
         Dish.create({
             name: "Pizza végétarienne",
             description: "Une pizza que même t'as que des légumes dedans",
             price: 13.79
+        })
+
+        Dish.create({
+            name: "Pizza",
+            description: "Une pizza",
+            price: 21
+        })
+
+        Dish.create({
+            name: "Spaghettis à la bolognaise",
+            description: "Le plat basique par excellence",
+            price: 3.5
         })
     })
 })

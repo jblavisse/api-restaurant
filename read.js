@@ -1,7 +1,4 @@
-
-const {DataTypes, Sequelize} = require('sequelize');
-
-const sequelize = new Sequelize('mysql://restaurant_usr:1poney2poneys3poneys@localhost/restaurant');
+const sequelize = require("./models/index.js");
 
 console.log(`Checking database connection...`);
 
@@ -178,6 +175,28 @@ sequelize.authenticate()
         where: {firstname: "Jean-Baptiste"}
     }).then(customers => {
         console.log(customers)
+    })
+
+
+    // Faire en sorte d'afficher tous les plats qui s'appellent exactement "Pizza"
+    Dish.findAll({
+        where: {name: "Pizza"}
+    }).then(dishes => {
+        console.log(dishes)
+    })
+
+    // Récupérer le plat qui a pour id 2
+    Dish.findByPk(2).then(theDish => {
+        console.log(theDish)
+    })
+
+    // Faire en sorte d'afficher tous les plats dont le prix est  inférieur à 20
+    Dish.findAll({
+        where: {price: {
+            [Op.lt]: 20
+        }}
+    }).then(dishes => {
+        console.log(dishes)
     })
 })
 // Si c'est pas bon
