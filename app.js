@@ -1,3 +1,4 @@
+
 const {DataTypes, Sequelize} = require('sequelize');
 
 const sequelize = new Sequelize('mysql://restaurant_usr:1poney2poneys3poneys@localhost/restaurant');
@@ -23,31 +24,60 @@ const Customer = sequelize.define('Customer', {
     },
     phone: {
         type: DataTypes.STRING(14),
-        allowNull: false
+        allowNull: true
     }
 }, {
     underscored: true,
     tableName: 'customer'
-})
+});
 
-const Dish = sequelize.define('Dish', {
-}, {
-    underscored: true,
-    tableName: 'dish'
-})
+const Dish = sequelize.define('Dish',{
+    name:{
+        type:DataTypes.STRING(50),
+        allowNull:false
+    },
+    description:{
+        type: DataTypes.TEXT,
+        allowNull: true
+    },
+    price:{
+        type: DataTypes.FLOAT,
+        allowNull: false
+    } 
+},{
+    tableName: 'dish',
+    underscored:true
+});
 
-const Order = sequelize.define('Order', {
-}, {
-    underscored: true,
-    tableName: 'order'
-})
 
-const Payment = sequelize.define('Payment', {
-}, {
-    underscored: true,
-    tableName: 'payment'
-})
+const Order = sequelize.define('Order',{
+    code:{
+        type: DataTypes.STRING(30),
+        allowNull:false
+    },
+    status:{
+        type: DataTypes.ENUM,
+        values: ['pending', 'cooking', 'finished'],
+        allowNull: false
+    },
+    date:{
+        type: DataTypes.DATE,
+        allowNull: false
+    } 
+},{
+    tableName: 'order' ,
+    underscored:true
+});
 
+const Payment = sequelize.define('Payment',{
+    name:{
+        type:DataTypes.STRING(50),
+        allowNull:false
+    }
+},{
+    tableName: 'payment' ,
+    underscored:true
+});
 
 // Un moyen de paiement peut être utilisé dans plusieurs commandes
 Payment.hasMany(Order);
@@ -78,9 +108,13 @@ const OrderDish = sequelize.define('order_dish', {
 })
 
 // Une commande peut posséder plusieurs plats
-Order.belongsToMany(Dish, {through: OrderDish});
+Order.belongsToMany(Dish, {through: 
+    {model: OrderDish, unique: false}
+});
 // Un plat peut être dans plusieurs commandes
-Dish.belongsToMany(Order, {through: OrderDish});
+Dish.belongsToMany(Order, {through: 
+    {model: OrderDish, unique: false}
+});
 
 
 const CustomerDish = sequelize.define('customer_dish', {
@@ -97,9 +131,13 @@ const CustomerDish = sequelize.define('customer_dish', {
  })
 
 // Un client peut commander plusieurs plats
-Customer.belongsToMany(Dish, {through: CustomerDish});
+Customer.belongsToMany(Dish, {through: 
+    {model: CustomerDish, unique: false}
+});
 // Un plat peut être lié à plusieurs clients
-Dish.belongsToMany(Customer, {through: CustomerDish});
+Dish.belongsToMany(Customer,  {through: 
+    {model: CustomerDish, unique: false}
+});
 
 
 
@@ -111,8 +149,25 @@ sequelize.authenticate()
  // Synchroniser la structure de ma BDD avec mes modèles Sequelize
  sequelize.sync({ force: true })
     .then(() => {
-    console.log("Database rewriting done!");
+        console.log("Database rewriting done!");
+    
+        Customer.create({
+            firstname: "Jean-Baptiste",
+            lastname: "Lavisse",
+            email: "jb@truc.fr",
+        //    address: "2 rue du vert gazon 62129 truc",
+        //    phone: '0321882292'
+        })
+
+        Customer.create({
+            firstname: "Jean-jacques",
+            lastname: "Rousseau",
+            email: "lebg@laphilo.fr",
+        //    address: "2 rue du vert gazon 62129 truc",
+            phone: '0321882292'
+        })
     })
+
 })
 // Si c'est pas bon
 .catch(err => {
