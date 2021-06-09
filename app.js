@@ -1,34 +1,23 @@
 // Récupère l'instance de sequelize et ses modèles associés
 const sequelize = require("./models/index.js");
+const express = require("express");
+
+const app = express();
+const port = 5000;
+
+app.get('/', (req, res) => {
+    sequelize.models.Customer.findAll()
+    .then(customers => {
+        res.send(customers)
+    })
+})
 
 sequelize.authenticate()
 // Si c'est bon
 .then(() => {
- console.log('Database connection OK!');
-
-// Synchroniser la structure de ma BDD avec mes modèles Sequelize
- sequelize.sync({ force: true })
-   .then(() => {
-        console.log("Database rewriting done!");
-
-        // Pour pouvoir utiliser un modèle associée
-        // à notre instance de sequelize
-        // sequelize.models.LeNomDeNotreModele
-        sequelize.models.Customer.create({
-            firstname: "Jean-Baptiste",
-            lastname: "Lavisse",
-            email: "jb@truc.fr",
-        //  address: "2 rue du vert gazon 62129 truc",
-        //  phone: '0321882292'
-        })
-
-        sequelize.models.Customer.create({
-            firstname: "Jean-jacques",
-            lastname: "Rousseau",
-            email: "lebg@laphilo.fr",
-        //  address: "2 rue du vert gazon 62129 truc",
-            phone: '0321882292'
-        })
+    console.log('Database connection OK!');
+    app.listen(port, () => {
+        console.log(`Web server listening at http://localhost:${port}`);
     })
 })
 // Si c'est pas bon
