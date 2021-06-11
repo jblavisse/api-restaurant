@@ -11,7 +11,7 @@ sequelize.authenticate()
  sequelize.sync({ force: true })
    .then(() => {
         console.log("Database rewriting done!");
-        Customer.create({
+        sequelize.models.Customer.create({
             firstname: "Jean-Baptiste",
             lastname: "Lavisse",
             email: "jb@truc.fr",
@@ -19,7 +19,7 @@ sequelize.authenticate()
         //  phone: '0321882292'
         })
 
-        Customer.create({
+        sequelize.models.Customer.create({
             firstname: "Jean-jacques",
             lastname: "Rousseau",
             email: "lebg@laphilo.fr",
@@ -27,19 +27,19 @@ sequelize.authenticate()
             phone: '0321882292'
         })
    
-        Dish.create({
+        sequelize.models.Dish.create({
             name: "Pizza végétarienne",
             description: "Une pizza que même t'as que des légumes dedans",
             price: 13.79
         })
 
-        Dish.create({
+        sequelize.models.Dish.create({
             name: "Pizza",
             description: "Une pizza",
             price: 21
         })
 
-        Dish.create({
+        sequelize.models.Dish.create({
             name: "Spaghettis à la bolognaise",
             description: "Le plat basique par excellence",
             price: 3.5

@@ -12,6 +12,23 @@ app.get('/', (req, res) => {
     })
 })
 
+// Créer l'url /dishes qui affiche tous les plats
+app.get('/dishes',(req,res) => {
+    sequelize.models.Dish.findAll()
+    .then(dishes => {
+        res.status(200).json(dishes)
+    })
+})
+
+// Créer l'url /dishes/3 qui affiche le plat qui a pour id 3
+app.get('/dishes/:id',(req,res) => {
+    const id = req.params.id;
+    sequelize.models.Dish.findByPk(id)
+    .then(dish => {
+        res.status(200).json(dish)
+    })
+})
+
 sequelize.authenticate()
 // Si c'est bon
 .then(() => {

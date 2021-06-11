@@ -5,9 +5,15 @@
 // Récupérer le paquet de sequelize dans npm
 const {Sequelize} = require('sequelize');
 
+const dotenv = require('dotenv');
+
+// Ca va envoyer dans la variable process.env, tous les paramètres
+// dans le fichier .env
+dotenv.config();
+
 // Créer une instance de sequelize avec les paramètres de la BDD
 const sequelize = new Sequelize(
-    'mysql://restaurant_usr:1poney2poneys3poneys@localhost/restaurant'
+    process.env.DB_URL
 );
 
 // Requérir le modèle Customer et on envoie dans ce modèle
